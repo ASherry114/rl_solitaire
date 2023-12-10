@@ -111,14 +111,14 @@ class SolitaireGame:
         self._restock_cycle_remaining = 0
 
     @property
-    def is_won(self) -> bool:
+    def in_winning_state(self) -> bool:
         """
         Default condition for winning
         """
         return len(self._tableau) == 0
 
     @property
-    def is_lost(self) -> bool:
+    def in_losing_state(self) -> bool:
         """
         Default condition for losing
         """
