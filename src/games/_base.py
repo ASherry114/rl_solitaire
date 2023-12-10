@@ -40,8 +40,6 @@ The common game workflow is as follows;
 - Else, jump Loop
 """
 
-from typing import Any
-
 
 class Card:
     """
