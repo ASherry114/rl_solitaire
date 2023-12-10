@@ -236,3 +236,12 @@ class SolitaireGame:
             "move() must be implemented by subclasses to implement the game"
             " logic."
         )
+
+    def encode(self) -> list[int]:
+        """
+        Encode the current game state into a list of integers.
+        """
+        raise NotImplementedError(
+            "encode() must be implemented by subclasses to encode the game"
+            " state."
+        )
