@@ -2,4 +2,4 @@
 
 # Testing Reports
 *.html
-assets/*
+testing/**/assets/*
