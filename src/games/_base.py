@@ -116,14 +116,26 @@ class SolitaireGame:
         """
         Default condition for winning
         """
-        return len(self._tableau) == 0
+        return (
+            len(self._available_moves) == 0
+            and len(self._tableau) == 0
+            and len(self._stock) == 0
+            and len(self._waste) == 0
+        )
 
     @property
     def in_losing_state(self) -> bool:
         """
         Default condition for losing
         """
-        return len(self._available_moves) == 0
+        return (
+            len(self._available_moves) == 0
+            and (
+                len(self._tableau) != 0
+                or len(self._stock) != 0
+                or len(self._waste) != 0
+            )
+        )
 
     @property
     def stock(self) -> list[Card]:
