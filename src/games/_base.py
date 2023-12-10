@@ -203,18 +203,6 @@ class SolitaireGame:
         - Stack card from Reserve onto Tableau,
         - Place card into Foundation,
 
-        These may need to be separate methods to call, which will require the
-        Agent to decode it's own output into a clear action to perform here.
-        This will decouple the construction of the network from the
-        implementation of the game.
-        Alternatively, each game has a specific method of decoding an input
-        value (or sequence) into an action to affect on the world state.
-        This will enforce a standard definition of an Agents action,
-        presumably being a tuple of values that define and index of an operand
-        and a location to move it to, which will allow for more direct
-        comparison between algorithms.
-        Really, these two points are not mutually exclusive.
-
         This method should be overridden by subclasses to implement the game
         logic.
 
