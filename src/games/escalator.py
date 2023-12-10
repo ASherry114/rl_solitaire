@@ -18,13 +18,19 @@ Rules:
     - The game is won when all cards are removed from the tableau.
     - Cards are flipped from the stock pile one at a time to the waste pile.
     - The top card of the waste pile is available for play.
+    - Whilst there is no visible foundation, it can be thought that any card
+    that is removed from the pyramid has been put into the foundation and
+    cannot be retrieved. This is a way to track what has already been removed.
 
 Scoring:
     - 100 points for clearing the tableau.
     - 1 point for each card removed from the tableau.
+    TODO: find the scoring that Gnome does, and then see what the affect on
+    the model training and accuracy is when scoring with something that say
+    multiplies the score based on the chain of cards removed.
 """
 
-from src.games._base import SolitaireGame
+from src.games.base import SolitaireGame
 
 
 class EscalatorGame(SolitaireGame):

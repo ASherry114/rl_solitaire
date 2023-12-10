@@ -5,7 +5,7 @@ Testing the base / abstract class for the world
 """
 
 import unittest
-from src.games._base import Card, SolitaireGame
+from src.games.base import Card, SolitaireGame
 
 
 class TestCard(unittest.TestCase):
