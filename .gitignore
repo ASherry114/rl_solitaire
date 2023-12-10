@@ -1,1 +1,5 @@
 *.pyc
+
+# Testing Reports
+*.html
+assets/*
