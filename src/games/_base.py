@@ -109,6 +109,7 @@ class SolitaireGame:
         self._reserve: list[Card] = []
         self._available_moves: list[tuple[int, int]] = []
         self._restock_cycle_remaining = 0
+        self._score = 0
 
     @property
     def in_winning_state(self) -> bool:
@@ -155,6 +156,10 @@ class SolitaireGame:
     @property
     def restock_cycle_remaining(self) -> int:
         return self._restock_cycle_remaining
+
+    @property
+    def score(self) -> int:
+        return self._score
 
     def update_available_moves(self) -> None:
         """
