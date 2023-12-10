@@ -109,7 +109,7 @@ class SolitaireGame:
         self._tableau: list[list[Card]] = []
         self._foundation: list[list[Card]] = []
         self._reserve: list[Card] = []
-        self._available_moves: list[Any] = []
+        self._available_moves: list[tuple[int, int]] = []
         self._restock_cycle_remaining = 0
 
     @property
@@ -147,7 +147,11 @@ class SolitaireGame:
         return self._reserve
 
     @property
-    def available_moves(self) -> list[Any]:
+    def available_moves(self) -> list[tuple[int, int]]:
+        """
+        A move is a tuple of two integers, the first being the index of the
+        operand, and the second being the index of the destination.
+        """
         return self._available_moves
 
     @property
@@ -180,7 +184,7 @@ class SolitaireGame:
             "deal() must be implemented by subclasses to set up the game."
         )
 
-    def move(self, move: Any) -> int:
+    def move(self, source: int, destination: int) -> int:
         """
         The Agent / User makes an effect on the world state.
 
