@@ -156,6 +156,15 @@ class SolitaireGame:
     def restock_cycle_remaining(self) -> int:
         return self._restock_cycle_remaining
 
+    def update_available_moves(self) -> None:
+        """
+        Update the list of available moves.
+        """
+        raise NotImplementedError(
+            "_update_available_moves() must be implemented by subclasses to "
+            "update the list of available moves."
+        )
+
     def deal(
         self,
         stock: list[Card] | None = None,
