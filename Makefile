@@ -17,4 +17,4 @@ test:
 	make unit
 
 unit:
-	python3 -m pytest testing/unit
+	python3 -m pytest --html=./testing/unit/pytest_report.html testing/unit
