@@ -1,4 +1,4 @@
-content = main.py src testing
+content = src testing
 
 install-deps-dev:
 	python3 -m pip install --user -r requirements-dev.txt
@@ -8,10 +8,10 @@ install-deps:
 	python3 -m pip install --user -r requirements.txt
 
 lint:
-	python3 -m flake8 content
+	python3 -m flake8 ${content}
 
 format:
-	python3 -m black -l 79 content
+	python3 -m black -l 79 ${content}
 
 test:
 	make unit
