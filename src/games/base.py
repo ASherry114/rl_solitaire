@@ -39,8 +39,6 @@ The common game workflow is as follows;
 - Check for win/loss and return if so
 - Else, jump Loop
 
-TODO: I can't remember, was I going to make the state of the game a list of integers which represent the locations of the 52 cards in the deck?
-And then the output was going to be a probability dist of the index of the source and the index of the destination? Or should it be the index of the card in the 52 list (so the rank and suit ordered list) and then the index of the destination in the tableau?
 """
 
 
