@@ -30,9 +30,85 @@ Scoring:
     multiplies the score based on the chain of cards removed.
 """
 
-from src.games.base import SolitaireGame
+from random import shuffle
+
+from src.games.base import SolitaireGame, Card
 
 
 class EscalatorGame(SolitaireGame):
     """Represents a game of Escalator Solitaire."""
-    pass
+
+    @property
+    def in_winning_state(self) -> bool:
+        return len(self._tableau) == 0
+
+    def deal(
+        self,
+        stock: list[Card] | None = None,
+        waste: list[Card] | None = None,
+        tableau: list[list[Card]] | None = None,
+        foundation: list[list[Card]] | None = None,
+        reserve: list[Card] | None = None,
+    ) -> None:
+        """
+        Deal the game.
+
+        Args:
+            stock: The stock pile.
+            waste: The waste pile.
+            tableau: The tableau.
+            foundation: The foundation.
+            reserve: The reserve pile.
+        """
+
+        if None not in (stock, waste, tableau, foundation, reserve):
+            # NOTE: No sanity checks here
+            self.stock.extend(stock)
+            self.waste.extend(waste)
+            self.tableau.extend(tableau)
+            self.foundation.extend(foundation)
+            self.reserve.extend(reserve)
+            return
+
+        # If everything hasn't been given, then we must deal the game
+        # according to the rules.
+        deck = EscalatorGame.create_deck()
+        shuffle(deck)
+        for i in range(7):
+            # 7 rows of the tableau
+            row = deck[:i + 1]
+            deck = deck[i + 1:]
+            self.tableau.append(row)
+
+            # The cards in the tableau are visible
+            for card in row:
+                card.flip()
+
+        self.stock.extend(deck)
+
+    def display(self) -> str:
+        """
+        Display the game.
+        """
+
+        # First the stock and waste piles
+        stock_and_waste = "{} {}".format(
+            self.stock[-1] if len(self.stock) != 0 else "[  ]",
+            self.waste[-1] if len(self.waste) != 0 else "[  ]",
+        )
+
+        # Next, every row of the tableau
+        tableau = "\n".join(
+            "  ".join(
+                str(card)
+                if card is not None
+                else "[  ]"
+                for card in row
+            ).center(4 * 7 + 6 * 2 - 1)
+            for row in self.tableau
+        )
+
+        # As the remainder of the piles are not visible, we return
+        return "\n".join(
+            (stock_and_waste, tableau)
+        )
