@@ -251,7 +251,8 @@ class SolitaireGame:
         logic.
 
         Args:
-            move: The move to make
+            source: The index of the source to move from
+            destination: The index of the destination to move to
 
         Returns:
             The score for the move
