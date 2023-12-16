@@ -38,6 +38,9 @@ The common game workflow is as follows;
 - Score update
 - Check for win/loss and return if so
 - Else, jump Loop
+
+TODO: I can't remember, was I going to make the state of the game a list of integers which represent the locations of the 52 cards in the deck?
+And then the output was going to be a probability dist of the index of the source and the index of the destination? Or should it be the index of the card in the 52 list (so the rank and suit ordered list) and then the index of the destination in the tableau?
 """
 
 
@@ -83,6 +86,21 @@ class Card:
     @property
     def visible(self) -> bool:
         return self._visible
+
+    @property
+    def value(self) -> int:
+        """
+        The value of the card.
+        This value encodes the specific card out of 52 to a unique integer.
+
+        Missing cards value = 0
+        Flipped cards value = 1
+        Other cards value = func(rank, suit)
+        """
+
+        if not self._visible:
+            return 1
+        return (self._rank - 1) * 4 + self._suit
 
     def __str__(self) -> str:
         str_rank = Card.RANKS[self._rank]
