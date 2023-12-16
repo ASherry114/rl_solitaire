@@ -103,7 +103,7 @@ class Card:
         return (self._rank - 1) * 4 + self._suit
 
     def __str__(self) -> str:
-        if self.visisble:
+        if self.visible:
             str_rank = Card.RANKS[self._rank]
             str_suit = Card.SUITS[self._suit]
         else:
