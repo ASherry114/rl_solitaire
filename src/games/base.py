@@ -103,9 +103,13 @@ class Card:
         return (self._rank - 1) * 4 + self._suit
 
     def __str__(self) -> str:
-        str_rank = Card.RANKS[self._rank]
-        str_suit = Card.SUITS[self._suit]
-        return f"{str_rank}{str_suit}"
+        if self.visisble:
+            str_rank = Card.RANKS[self._rank]
+            str_suit = Card.SUITS[self._suit]
+        else:
+            str_rank = "?"
+            str_suit = "?"
+        return f"[{str_rank}{str_suit}]"
 
     def flip(self):
         self._visible = True
@@ -128,6 +132,13 @@ class SolitaireGame:
         self._available_moves: list[tuple[int, int]] = []
         self._restock_cycle_remaining = 0
         self._score = 0
+
+    @staticmethod
+    def create_deck() -> list[Card]:
+        """
+        Create a deck of cards.
+        """
+        return [Card(rank, suit) for rank in range(1, 14) for suit in range(4)]
 
     @property
     def in_winning_state(self) -> bool:
@@ -261,5 +272,14 @@ class SolitaireGame:
         """
         raise NotImplementedError(
             "encode() must be implemented by subclasses to encode the game"
+            " state."
+        )
+
+    def display(self) -> str:
+        """
+        Display the current game state.
+        """
+        raise NotImplementedError(
+            "display() must be implemented by subclasses to display the game"
             " state."
         )
