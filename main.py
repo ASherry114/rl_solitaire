@@ -25,3 +25,8 @@ if __name__ == "__main__":
         move = int(input("Move: "))
         game.move(move)
         move_cursor_up(num_lines + 3)
+
+    print(game.display())
+    print()
+    print()
+    print(f"Game over! You {'won' if game.in_winning_state else 'lost'}!")
