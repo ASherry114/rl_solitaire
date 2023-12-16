@@ -89,6 +89,7 @@ class EscalatorGame(SolitaireGame):
                 card.flip()
 
         self.stock.extend(deck)
+        self.update_available_moves()
 
     def display(self) -> str:
         """
@@ -139,19 +140,69 @@ class EscalatorGame(SolitaireGame):
             ValueError: If the move is invalid
         """
 
+        reward = 0
+
         if (0, destination) not in self.available_moves:
             raise ValueError("Invalid move")
 
-        row = destination // 10
-        idx = destination % 10
+        if destination == 0:
+            # Flip stock to waste
+            if len(self.stock) == 0:
+                # No more cards to flip
+                raise ValueError("Invalid move")
 
-        # Waste card goes to foundation
-        self.foundation[0].append(self.waste[0])
+            if len(self.waste) == 0:
+                self.waste.append(None)
+            self.waste[0] = self.stock.pop()
+            self.waste[0].flip()
+        else:
+            # Decode the destination, or flip the stock
+            row = destination // 10 - 1
+            idx = destination % 10 - 1
 
-        # Tableau card goes to waste
-        self.waste[0] = self.tableau[row][idx]
+            # Waste card goes to foundation
+            self.foundation[0].append(self.waste[0])
 
-        # Tableau card slot is emptied
-        self.tableau[row][idx] = None
+            # Tableau card goes to waste
+            self.waste[0] = self.tableau[row][idx]
 
-        return 1
+            # Tableau card slot is emptied
+            self.tableau[row][idx] = None
+
+            reward = 1
+
+        self.update_available_moves()
+        return reward
+
+    def update_available_moves(self) -> None:
+        """
+        Update the list of available moves.
+        """
+
+        self.available_moves.clear()
+
+        # Check for stock flip
+        if len(self.stock) != 0:
+            self.available_moves.append((0, 0))
+
+        # Check which cards the waste can be stacked on
+        if len(self.waste) != 0:
+            rank = self.waste[0].rank
+            stack_up = rank + 1
+            stack_down = rank - 1
+            if stack_up == 14:
+                stack_up = 1
+            if stack_down == 0:
+                stack_down = 13
+
+            for row in range(len(self.tableau)):
+                for col in range(len(self.tableau[row])):
+                    tab_card = self.tableau[row][col]
+                    if tab_card is not None:
+                        if (
+                            tab_card.rank == stack_up
+                            or tab_card.rank == stack_down
+                        ):
+                            self.available_moves.append(
+                                (0, (row + 1) * 10 + col + 1)
+                            )
