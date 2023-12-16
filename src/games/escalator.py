@@ -181,28 +181,53 @@ class EscalatorGame(SolitaireGame):
 
         self.available_moves.clear()
 
+        def _rank_adjacent(this: Card, other: Card) -> bool:
+            rank_up = this.rank + 1
+            rank_down = this.rank - 1
+            if rank_up == 14:
+                rank_up = 1
+            if rank_down == 0:
+                rank_down = 13
+
+            return (other.rank == rank_up) or (other.rank == rank_down)
+
+        def _accessible(row: int, col: int) -> bool:
+            if row == len(self.tableau) - 1:
+                # Bottom row is always accessible
+                return True
+
+            # First check left blocker
+            left_blocker = self.tableau[row + 1][col]
+            if left_blocker is not None:
+                return False
+
+            # Then check right blocker
+            right_blocker = self.tableau[row + 1][col + 1]
+            if right_blocker is not None:
+                return False
+
+            return True
+
         # Check for stock flip
         if len(self.stock) != 0:
             self.available_moves.append((0, 0))
 
         # Check which cards the waste can be stacked on
         if len(self.waste) != 0:
-            rank = self.waste[0].rank
-            stack_up = rank + 1
-            stack_down = rank - 1
-            if stack_up == 14:
-                stack_up = 1
-            if stack_down == 0:
-                stack_down = 13
+            waste_card = self.waste[0]
 
             for row in range(len(self.tableau)):
                 for col in range(len(self.tableau[row])):
                     tab_card = self.tableau[row][col]
-                    if tab_card is not None:
-                        if (
-                            tab_card.rank == stack_up
-                            or tab_card.rank == stack_down
-                        ):
-                            self.available_moves.append(
-                                (0, (row + 1) * 10 + col + 1)
-                            )
+                    # Check if the card is accessible and playable
+                    if tab_card is None:
+                        continue
+                    if not _rank_adjacent(waste_card, tab_card):
+                        continue
+                    if not _accessible(row, col):
+                        continue
+
+                    # Add this card to the moves
+                    self.available_moves.append(
+                        (0, (row + 1) * 10 + col + 1)
+                    )
