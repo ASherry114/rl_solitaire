@@ -47,7 +47,11 @@ class Card:
     Represents a playing card.
     """
 
-    RANKS = ["NONE", "A"] + [str(i) for i in range(2, 11)] + ["J", "Q", "K"]
+    RANKS = (
+        ["NONE", "A"]
+        + [str(i) for i in range(2, 10)]
+        + ["X", "J", "Q", "K"]
+    )
     SUITS = [
         "\N{BLACK SPADE SUIT}",
         "\N{BLACK CLUB SUIT}",
