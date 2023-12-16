@@ -38,6 +38,10 @@ from src.games.base import SolitaireGame, Card
 class EscalatorGame(SolitaireGame):
     """Represents a game of Escalator Solitaire."""
 
+    def __init__(self):
+        super().__init__()
+        self.foundation.append([])  # Only one foundation pile
+
     @property
     def in_winning_state(self) -> bool:
         return len(self._tableau) == 0
@@ -112,3 +116,42 @@ class EscalatorGame(SolitaireGame):
         return "\n".join(
             (stock_and_waste, tableau)
         )
+
+    def move(self, destination: int) -> int:
+        """
+        The Agent / User makes an effect on the world state.
+
+        The options for moves, or actions, are as follows;
+        - Flip Stock to Waste (or cycle Stock if depleted),
+        - Stack Waste on a card in the Tableau,
+
+        Stacking a card from the waste onto the tableau removes that waste
+        card and replaces it with the card from the tableau.
+        This space is then empty.
+
+        Args:
+            destination: The index of the destination to move to
+
+        Returns:
+            The score for the move
+
+        Raises:
+            ValueError: If the move is invalid
+        """
+
+        if (0, destination) not in self.available_moves:
+            raise ValueError("Invalid move")
+
+        row = destination // 10
+        idx = destination % 10
+
+        # Waste card goes to foundation
+        self.foundation[0].append(self.waste[0])
+
+        # Tableau card goes to waste
+        self.waste[0] = self.tableau[row][idx]
+
+        # Tableau card slot is emptied
+        self.tableau[row][idx] = None
+
+        return 1
