@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from time import sleep
+
 from src.games.escalator import EscalatorGame
 
 
@@ -21,10 +23,15 @@ if __name__ == "__main__":
         clear_screen()
         print(game.display())
         print()
-        print([move[1] for move in game.available_moves])
-        move = int(input("Move: "))
+        # print([move[1] for move in game.available_moves])
+        # move = int(input("Move: "))
+        if len(game.available_moves) == 1:
+            move = game.available_moves[0][1]
+        else:
+            move = game.available_moves[1][1]
         game.move(move)
         move_cursor_up(num_lines + 3)
+        sleep(0.05)
 
     print(game.display())
     print()
