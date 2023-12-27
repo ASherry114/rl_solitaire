@@ -172,6 +172,13 @@ class EscalatorGame(SolitaireGame):
             reward = 1
 
         self.update_available_moves()
+
+        # Check if the game is terminal
+        if self.in_winning_state:
+            reward += 100
+        elif self.in_losing_state:
+            reward -= 100
+
         return reward
 
     def update_available_moves(self) -> None:
