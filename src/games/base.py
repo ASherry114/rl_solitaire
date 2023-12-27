@@ -269,13 +269,20 @@ class SolitaireGame:
             " logic."
         )
 
-    def encode(self) -> list[int]:
+    def encode(self) -> list[list[int]]:
         """
         Encode the current game state into a list of integers.
         """
-        raise NotImplementedError(
-            "encode() must be implemented by subclasses to encode the game"
-            " state."
+
+        def encode_pile(pile: list[Card]) -> list[int]:
+            return [card.value for card in pile]
+
+        return (
+            encode_pile(self.stock),
+            encode_pile(self.waste),
+            [encode_pile(pile) for pile in self.foundation],
+            [encode_pile(pile) for pile in self.tableau],
+            encode_pile(self.reserve),
         )
 
     def display(self) -> str:
